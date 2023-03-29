@@ -1,12 +1,21 @@
 from flask import Flask,request,render_template
 import urllib
 import json
+import os
+import ssl
+
+def allowSelfSignedHttps(allowed):
+    # bypass the server certificate verification on client side
+    if allowed and not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
 
 app=Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template("templates/form.html")
+    return render_template("form.html")
 
 @app.route('/aml', methods=['GET','POST'])
 def aml():
@@ -37,7 +46,6 @@ def aml():
 
     if not api_key:
         raise Exception("A key should be provided to invoke the endpoint")
-
 
     headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key)}
 
