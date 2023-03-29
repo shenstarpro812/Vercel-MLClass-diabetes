@@ -6,7 +6,7 @@ app=Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template("form.html")
+    return render_template("templates/form.html")
 
 @app.route('/aml', methods=['GET','POST'])
 def aml():
