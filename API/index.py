@@ -15,8 +15,7 @@ app=Flask(__name__)
 
 @app.route('/')
 def home():
-    return "HELLO WWWWWWW"
-    # return render_template("form.html")
+    return render_template("form.html")
 
 @app.route('/aml', methods=['GET','POST'])
 def aml():
